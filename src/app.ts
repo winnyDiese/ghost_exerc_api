@@ -5,11 +5,17 @@ import router_user from "./routers/user.router"
 const app = express()
 const prisma = new PrismaClient()
 
-const corsOptions = {
-    origin: 'http://localhost:3000', 
-    optionsSuccessStatus: 200, // Réglage pour d'anciens navigateurs
-    credentials: true 
-};
+// Configuration de CORS
+const corsOptions: cors.CorsOptions = {
+    origin: "http://localhost:3000", // Remplacez par le domaine autorisé
+    methods: ["GET", "POST", "PUT", "DELETE"], // Méthodes autorisées
+    allowedHeaders: ["Content-Type", "Authorization"], // En-têtes autorisés
+  };
+// const corsOptions = {
+//     origin: 'http://localhost:3000', 
+//     optionsSuccessStatus: 200, // Réglage pour d'anciens navigateurs
+//     credentials: true 
+// };
 
 
 app.use(express.json())
