@@ -1,5 +1,6 @@
 import express, {Request, Response} from 'express'
 import { PrismaClient } from '@prisma/client'
+import cors from "cors"
 import router_user from "./routers/user.router"
 
 const app = express()
@@ -11,6 +12,7 @@ const corsOptions: cors.CorsOptions = {
     methods: ["GET", "POST", "PUT", "DELETE"], // Méthodes autorisées
     allowedHeaders: ["Content-Type", "Authorization"], // En-têtes autorisés
   };
+
 // const corsOptions = {
 //     origin: 'http://localhost:3000', 
 //     optionsSuccessStatus: 200, // Réglage pour d'anciens navigateurs
@@ -19,7 +21,7 @@ const corsOptions: cors.CorsOptions = {
 
 
 app.use(express.json())
-app.use(core(corsOptions))
+app.use(cors(corsOptions))
 app.use('/api', router_user)
 
 
