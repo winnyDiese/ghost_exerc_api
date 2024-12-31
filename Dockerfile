@@ -1,10 +1,28 @@
+# Utilisation de l'image officielle de Node.js basée sur Alpine
 FROM node:lts-alpine
+
+# Définir l'environnement en production
 ENV NODE_ENV=production
-WORKDIR /usr/src
+
+# Définir le répertoire de travail
+WORKDIR /usr/src/app
+
+# Copier les fichiers nécessaires pour installer les dépendances
 COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
-RUN npm install --production --silent && mv node_modules ../
+RUN npm install --silent
+
+# Copier tous les fichiers du projet
 COPY . .
+
+# Compiler les fichiers TypeScript
+RUN npm run build
+
+# Exposer le port de l'application
 EXPOSE 3001
-RUN chown -R node /usr/src
+
+# Modifier les permissions des fichiers pour l'utilisateur 'node' et changer d'utilisateur
+RUN chown -R node /usr/src/app
 USER node
-CMD ["node", "index.js"]
+
+# Démarrer l'application
+CMD ["node", "dist/index.js"]
