@@ -1,6 +1,6 @@
 import express, {Request, Response} from 'express'
 import { PrismaClient } from '@prisma/client'
-import cors from "cors"
+import cors from "@types/cors"
 import router_user from "./routers/user.router"
 
 const app = express()
