@@ -6,10 +6,10 @@ WORKDIR /usr/src/app
 
 # Copier les fichiers nécessaires pour installer les dépendances
 COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
-RUN npm install --silent
+RUN npm install 
 
 # Installer les dépendances de développement (comme les types)
-RUN npm install --save-dev @types/cors --silent
+RUN npm install --save-dev @types/cors 
 
 # Copier tous les fichiers du projet
 COPY . .
