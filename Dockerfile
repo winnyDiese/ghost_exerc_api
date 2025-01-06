@@ -1,25 +1,32 @@
+# Utiliser une image de Node.js 18
 FROM node:18
 
+# Définir l'environnement de production
 ENV NODE_ENV=production
 
+# Définir le répertoire de travail dans l'image Docker
 WORKDIR /usr/src/app
 
-# Copier les fichiers nécessaires pour installer les dépendances
-COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
-RUN npm install 
+# Copier package.json et package-lock.json (ou npm-shrinkwrap.json) pour installer les dépendances
+COPY package*.json ./
 
-# Installer les dépendances de développement (comme les types)
-RUN npm install --save-dev @types/cors 
+# Installer toutes les dépendances (y compris celles de développement)
+RUN npm install
 
-# Copier tous les fichiers du projet
+# Copier tout le reste du projet dans le conteneur
 COPY . .
 
 # Compiler les fichiers TypeScript
 RUN npm run build
 
+# Exposer le port sur lequel l'API écoutera
 EXPOSE 3001
 
-RUN chown -R node /usr/src/app
+# Changer les permissions des fichiers
+RUN chown -R node:node /usr/src/app
+
+# Passer à un utilisateur non privilégié pour des raisons de sécurité
 USER node
 
+# Commande pour démarrer l'application après la compilation
 CMD ["node", "dist/index.js"]
